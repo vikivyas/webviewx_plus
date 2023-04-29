@@ -18,10 +18,8 @@ class _WebViewXPageState extends State<WebViewXPage> {
   late WebViewXController webviewController;
   final scrollController = ScrollController();
 
-  final initialContent =
-      '<h4> This is some hardcoded HTML code embedded inside the webview <h4> <h2> Hello world! <h2>';
-  final executeJsErrorMessage =
-      'Failed to execute this task because the current content is (probably) URL that allows iFrame embedding, on Web.\n\n'
+  final initialContent = '<h4> This is some hardcoded HTML code embedded inside the webview <h4> <h2> Hello world! <h2>';
+  final executeJsErrorMessage = 'Failed to execute this task because the current content is (probably) URL that allows iFrame embedding, on Web.\n\n'
       'A short reason for this is that, when a normal URL is embedded in the iFrame, you do not actually own that content so you cant call your custom functions\n'
       '(read the documentation to find out why).';
 
@@ -87,19 +85,15 @@ class _WebViewXPageState extends State<WebViewXPage> {
       height: screenSize.height / 2,
       width: min(screenSize.width * 0.8, 1024),
       onWebViewCreated: (controller) => webviewController = controller,
-      onPageStarted: (src) =>
-          debugPrint('A new page has started loading: $src\n'),
-      onPageFinished: (src) =>
-          debugPrint('The page has finished loading: $src\n'),
+      onPageStarted: (src) => debugPrint('A new page has started loading: $src\n'),
+      onPageFinished: (src) => debugPrint('The page has finished loading: $src\n'),
       jsContent: const {
         EmbeddedJsContent(
           js: "function testPlatformIndependentMethod() { console.log('Hi from JS') }",
         ),
         EmbeddedJsContent(
-          webJs:
-              "function testPlatformSpecificMethod(msg) { TestDartCallback('Web callback says: ' + msg) }",
-          mobileJs:
-              "function testPlatformSpecificMethod(msg) { TestDartCallback.postMessage('Mobile callback says: ' + msg) }",
+          webJs: "function testPlatformSpecificMethod(msg) { TestDartCallback('Web callback says: ' + msg) }",
+          mobileJs: "function testPlatformSpecificMethod(msg) { TestDartCallback.postMessage('Mobile callback says: ' + msg) }",
         ),
       },
       dartCallBacks: {
@@ -205,8 +199,7 @@ class _WebViewXPageState extends State<WebViewXPage> {
 
   Future<void> _callPlatformSpecificJsMethod() async {
     try {
-      await webviewController
-          .callJsMethod('testPlatformSpecificMethod', ['Hi']);
+      await webviewController.callJsMethod('testPlatformSpecificMethod', ['Hi']);
     } catch (e) {
       showAlertDialog(
         executeJsErrorMessage,
@@ -257,14 +250,12 @@ class _WebViewXPageState extends State<WebViewXPage> {
       ),
       buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
       createButton(
-        text:
-            'Change content to URL that allows iFrames embedding\n(https://flutter.dev)',
+        text: 'Change content to URL that allows iFrames embedding\n(https://flutter.dev)',
         onTap: _setUrl,
       ),
       buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
       createButton(
-        text:
-            'Change content to URL that doesnt allow iFrames embedding\n(https://news.ycombinator.com/)',
+        text: 'Change content to URL that doesnt allow iFrames embedding\n(https://news.ycombinator.com/)',
         onTap: _setUrlBypass,
       ),
       buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
@@ -294,8 +285,7 @@ class _WebViewXPageState extends State<WebViewXPage> {
       ),
       buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
       createButton(
-        text:
-            'Call platform specific Js method, that calls back a Dart function',
+        text: 'Call platform specific Js method, that calls back a Dart function',
         onTap: _callPlatformSpecificJsMethod,
       ),
       buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
